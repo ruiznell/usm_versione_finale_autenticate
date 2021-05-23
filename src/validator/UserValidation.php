@@ -11,13 +11,13 @@ class UserValidation {
     public const LAST_NAME_ERROR_NONE_MSG = 'Il cognome è ggiusto !!';
     public const LAST_NAME_ERROR_REQUIRED_MSG = 'Il cognome è obbligatorio';
 
-    public const BIRTHDAY_ERROR_FORMAT_MSG = 'Il formato della data non è valido';
+    public const BIRTHDAY_ERROR_NONE_MSG = 'data corretta';
     public const BIRTHDAY_NONE_MSG = '';
-    public const BIRTHDAY_ERROR_NONE_MSG = 'Il formato della data è corretto';
+    public const BIRTHDAY_ERROR_MSG = 'Data posteriore alla data corrente';
     
-    public const EMAIL_ERROR_FORMAT_MSG = 'Il formato dell\'email non è valido';
+    public const EMAIL_ERROR_NONE_MSG = 'La mail è corretta';
     public const EMAIL_ERROR_REQUIRED_MSG = 'La mail è obbligatoria';
-    public const EMAIL_ERROR_NONE_MSG = 'Il formato della email è corretto';
+    public const EMAIL_ERROR_FORMAT_MSG = 'Scrivi una mail valida';
 
     public const PASSWORD_ERROR_REQUIRED_MSG = 'La password è obbligatoria';
     public const PASSWORD_ERROR_NONE_MSG = '';
@@ -92,25 +92,22 @@ class UserValidation {
      
     }
 
+
     private function validateEmail():?ValidationResult
     {
-        $email = $this->user->getEmail();
+        
+        
+        $email = trim($this->user->getEmail());
         if(empty($email)){
-            return new ValidationResult(self::EMAIL_ERROR_REQUIRED_MSG, false, $email);
-            //return true;
-        } else {
+            $validationResult = new ValidationResult(self::EMAIL_ERROR_REQUIRED_MSG,false,$email);
 
-            $validateEmail = filter_var($email,FILTER_VALIDATE_EMAIL);
-            
-            if($validateEmail === false)
-            {
-                return new ValidationResult(self::EMAIL_ERROR_FORMAT_MSG, false, $email);
-            }
-            else {
-                return new ValidationResult(self::EMAIL_ERROR_NONE_MSG, true, $email);
-            }
-            
-        } 
+        }else if (true != filter_var($this->user->getEmail(),FILTER_VALIDATE_EMAIL)) {
+            $validationResult = new ValidationResult(self::EMAIL_ERROR_FORMAT_MSG,false,$email);
+        
+        } else {
+            $validationResult = new ValidationResult(self::EMAIL_ERROR_NONE_MSG,true,$email);
+        };
+        return $validationResult;
     }
 
     private function validatePassword():?ValidationResult
