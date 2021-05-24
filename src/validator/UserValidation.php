@@ -11,9 +11,9 @@ class UserValidation {
     public const LAST_NAME_ERROR_NONE_MSG = 'Il cognome è ggiusto !!';
     public const LAST_NAME_ERROR_REQUIRED_MSG = 'Il cognome è obbligatorio';
 
-    public const BIRTHDAY_ERROR_NONE_MSG = 'data corretta';
+    public const BIRTHDAY_ERROR_FORMAT_MSG = 'Il formato della data non è valido';
     public const BIRTHDAY_NONE_MSG = '';
-    public const BIRTHDAY_ERROR_MSG = 'Data posteriore alla data corrente';
+    public const BIRTHDAY_ERROR_NONE_MSG = 'Il formato della data è corretto';
     
     public const EMAIL_ERROR_NONE_MSG = 'La mail è corretta';
     public const EMAIL_ERROR_REQUIRED_MSG = 'La mail è obbligatoria';

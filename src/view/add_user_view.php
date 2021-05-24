@@ -66,6 +66,19 @@
                   <?= $passwordMessage ?>
                </div> 
             </div>
+
+            <div>
+               <select name="Interesse" id="InteresseId">
+                  <option value="sport">Sport</option>
+                  <option value="leggere">Leggere</option>
+                  <option value="cinema">Cinema</option>
+                  <option value="cucina">Cucina</option>
+               </select>
+            
+                       
+            </div>
+
+
             <!-- quando gli utenti vengono creati non hanno ancora un id, quindi non ha bisogno del campo nascosto -->
              <?php if(isset($userId)) { ?>
                <!-- invece quando sono in modifica di un utente 
