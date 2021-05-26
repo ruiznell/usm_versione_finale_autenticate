@@ -36,6 +36,9 @@ class UserModel
             
 
             $pdostm->execute();
+            $last_id = $this->conn->lastInsertId();
+            return $last_id;
+
         } catch (\PDOException $e) {
             // TODO: Evitare echo
             echo $e->getMessage();
@@ -95,7 +98,8 @@ class UserModel
 
     public function delete(int $user_id):bool
     {
-        $sql = "delete from User where userId=:user_id ";
+        $sql = "DELETE FROM User WHERE userId=:user_id;
+                DELETE FROM user_interesse WHERE userId=:user_id";
         
         $pdostm = $this->conn->prepare($sql);
         $pdostm->bindValue(':user_id',$user_id,PDO::PARAM_INT);
@@ -112,7 +116,7 @@ class UserModel
     }
 
     public function autenticate($email, $password){
-        $sql = "Select * from User where email=:email";
+        $sql = "SELECT * from User WHERE email=:email";
         $pdostm = $this->conn->prepare($sql);
         $pdostm->bindValue('email', $email, PDO::PARAM_STR);
         $pdostm->execute();

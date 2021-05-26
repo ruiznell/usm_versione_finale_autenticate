@@ -6,22 +6,48 @@ use sarassoroberto\usm\model\DB;
 $conn = DB::serverConnectionWithoutDatabase();
 $dbname = AppConfig::DB_NAME;
 
-$sql = "DROP DATABASE if exists $dbname;
+$sql1 = "DROP DATABASE if exists $dbname;
         CREATE database if not exists $dbname; 
         use $dbname;
+
+
+ 
+        CREATE table if not exists Interesse (
+        interesseId int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        nome varchar(255) NOT NULL
+        )";
+
+$conn->exec($sql1);
+
+
+$sqlToInsertInteresseQuery1 = "INSERT INTO Interesse (interesseId, nome) VALUES (1, 'Nessuno');
+                        INSERT INTO Interesse (interesseId, nome) VALUES (2, 'Leggere');
+                        INSERT INTO Interesse (interesseId, nome) VALUES (3, 'Cinema');
+                        INSERT INTO Interesse (interesseId, nome) VALUES (4, 'Cucina');
+                        INSERT INTO Interesse (interesseId, nome) VALUES (5, 'Sport');
+                        INSERT INTO Interesse (interesseId, nome) VALUES (6, 'Ballo');";
+
+$conn->exec($sqlToInsertInteresseQuery1);
+
+$sql2 = "use $dbname;
 
         CREATE table if not exists User (
             userId int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
             firstName varchar(255) NOT NULL,
             lastName varchar(255)  NOT NULL,
             email varchar(255) NOT NULL,
-            birthday DATE, 
-            password varchar(255) NOT NULL 
+            birthday DATE,
+            password varchar(255) NOT NULL,
+            CONSTRAINT UC_User UNIQUE (email)
         )";
 
-$conn->exec($sql);
 
-$sqlToInsertUserQuery = "INSERT INTO User (userId, firstName, lastName, email, birthday, password) VALUES (1, 'Adamo', 'ROSSI', 'adamo.rossi@email.com', '2002-06-12', 'password');
+
+$conn->exec($sql2);
+
+
+
+$sqlToInsertUserQuery2 = "INSERT INTO User (userId, firstName, lastName, email, birthday, password) VALUES (1, 'Adamo', 'ROSSI', 'adamo.rossi@email.com', '2002-06-12', 'password');
                             INSERT INTO User (userId, firstName, lastName, email, birthday, password) VALUES (2, 'Mario', 'FERRARI', 'mario.ferrari@email.com', '2001-06-12', 'password');
                             INSERT INTO User (userId, firstName, lastName, email, birthday, password) VALUES (3, 'Luigi', 'RUSSO', 'luigi.russo@email.com', '2007-08-06', 'password');
                             INSERT INTO User (userId, firstName, lastName, email, birthday, password) VALUES (4, 'Achille', 'BIANCHI', 'achille.bianchi@email.com', '2006-03-14', 'password');
@@ -43,4 +69,37 @@ $sqlToInsertUserQuery = "INSERT INTO User (userId, firstName, lastName, email, b
                             INSERT INTO User (userId, firstName, lastName, email, birthday, password) VALUES (20, 'Adriano', 'ROMANO', 'a.romano@email.com', '2007-04-23', 'password');"; 
 
 
-$conn->exec($sqlToInsertUserQuery);
+$conn->exec($sqlToInsertUserQuery1);
+
+$sql2 = "use $dbname;
+        CREATE table if not exists Interesse (
+            interesseId int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+            nome varchar(255) NOT NULL
+        )";
+
+$conn->exec($sql2);
+
+
+$sqlToInsertInteresseQuery2 = "INSERT INTO Interesse (interesseId, nome) VALUES (1, 'Nessuno');
+                        INSERT INTO Interesse (interesseId, nome) VALUES (2, 'Leggere');
+                        INSERT INTO Interesse (interesseId, nome) VALUES (3, 'Cinema');
+                        INSERT INTO Interesse (interesseId, nome) VALUES (4, 'Cucina');
+                        INSERT INTO Interesse (interesseId, nome) VALUES (5, 'Sport');
+                        INSERT INTO Interesse (interesseId, nome) VALUES (6, 'Ballo');";
+
+$conn->exec($sqlToInsertInteresseQuery2);
+
+$sql3 = "use $dbname;
+        CREATE table if not exists User_Interesse (
+            userId int(10) NOT NULL,
+            interesseId int(10) NOT NULL,
+            FOREIGN KEY (userId) REFERENCES User(userId),
+            FOREIGN KEY (interesseId) REFERENCES Interesse(interesseId),
+            CONSTRAINT UC_User_Interesse UNIQUE (userId,interesseId)
+
+        )";
+
+
+$conn->exec($sql3);
+
+

@@ -1,6 +1,7 @@
 
     <?php include './src/view/head.php' ?> 
     <?php include './src/view/header.php' ?>
+ 
     
     <div class="container">
         <!-- <form action="add_user_form.php" method="POST"> -->
@@ -66,18 +67,44 @@
                   <?= $passwordMessage ?>
                </div> 
             </div>
+           
+            <div class="form-group mt-3">
+                  <label for="interesse">Seleziona un interesse:</label>
 
-            <div>
-               <select name="Interesse" id="InteresseId">
-                  <option value="sport">Sport</option>
-                  <option value="leggere">Leggere</option>
-                  <option value="cinema">Cinema</option>
-                  <option value="cucina">Cucina</option>
-               </select>
-            
-                       
+                  <select name="interesse" id="interesse">
+
+                  <?php
+                  function Conectar(){
+                     $conn = null;
+                     $host = 'localhost';
+                     $db = 'usm_finale';
+                     $user = 'root';
+                     $pwd = '';
+
+                     try {
+                        $conn = new PDO('mysql:host='.$host.';db_name= ' .$db, $user, $pwd);
+                        
+                    } catch (\PDOException $e) {
+                        // TODO: togliere echo
+                        echo $e->getMessage();
+                    }
+                      return $conn;
+                  }
+
+                  $con = Conectar();
+                  $sql = "SELECT interesseId, nome FROM interesse";
+                  $stmt = $con->prepare($sql);
+                  $result = $stmt-> execute();
+                  $rows= $stmt->fetchAll(\PDO::FETCH_OBJ);
+                  foreach ($rows as $row) {
+                     ?>
+                     <option value="<?php print($row->interesseId); ?>"><?php print ($row->nome); ?></option>
+
+                  <?php   
+                  }
+                  ?> 
+                  </select>
             </div>
-
 
             <!-- quando gli utenti vengono creati non hanno ancora un id, quindi non ha bisogno del campo nascosto -->
              <?php if(isset($userId)) { ?>

@@ -3,41 +3,21 @@ namespace sarassoroberto\usm\entity;
 
 class Interesse {
    
-    private $InteresseId;
-    private $Nome;
+    private $interesseId;
+    private $nome;
 
-    public function __construct($Nome) {
-        $this->Nome = $Nome;
+    public function __construct($nome) {
+        $this->nome = $nome;
        
     }
     
-
-    /**
-     * Get the value of InteresseId
-     */ 
-    public function getInteresseId()
-    {
-        return $this->InteresseId;
-    }
-
-    /**
-     * Set the value of InteresseId
-     *
-     * @return  self
-     */ 
-    public function setInteresseId($InteresseId)
-    {
-        $this->InteresseId = $InteresseId;
-
-        return $this;
-    }
 
     /**
      * Get the value of Nome
      */ 
     public function getNome()
     {
-        return $this->Nome;
+        return $this->nome;
     }
 
     /**
@@ -45,9 +25,29 @@ class Interesse {
      *
      * @return  self
      */ 
-    public function setNome($Nome)
+    public function setNome($nome)
     {
-        $this->Nome = $Nome;
+        $this->nome = $nome;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Interesse_Id
+     */ 
+    public function getInteresse_Id()
+    {
+        return $this->interesseId;
+    }
+
+    /**
+     * Set the value of Interesse_Id
+     *
+     * @return  self
+     */ 
+    public function setInteresse_Id($interesseId)
+    {
+        $this->Interesse_Id = $interesseId;
 
         return $this;
     }

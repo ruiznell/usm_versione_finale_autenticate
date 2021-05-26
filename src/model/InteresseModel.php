@@ -3,7 +3,7 @@ namespace sarassoroberto\usm\model;
 use \PDO;
 use sarassoroberto\usm\config\local\AppConfig;
 use sarassoroberto\usm\entity\Interesse;
-use sarassoroberto\usm\entity\User;
+use sarassoroberto\usm\entity\UserInteresse;
 
 class InteresseModel
 {
@@ -26,13 +26,13 @@ class InteresseModel
     {
 
         try {
-            $pdostm = $this->conn->prepare('INSERT INTO Interesse (Nome) VALUES (:Nome;');
+            $pdostm = $this->conn->prepare('INSERT INTO Interesse (nome) 
+            VALUES (:nome;');
 
-            $pdostm->bindValue(':Nome', $interesse->getNome(), PDO::PARAM_STR);
+            $pdostm->bindValue(':nome', $interesse->getNome(), PDO::PARAM_STR);
             
-            
-
             $pdostm->execute();
+
         } catch (\PDOException $e) {
             // TODO: Evitare echo
             echo $e->getMessage();
@@ -51,9 +51,9 @@ class InteresseModel
     public function readOne($interesse_id)
     {
         try {
-            $sql = "Select * from User where InteresseId=:interesse_id";
+            $sql = "SELECT * FROM Interesse WHERE interesseId=:interesse_id";
             $pdostm = $this->conn->prepare($sql);
-            $pdostm->bindValue('InteresseId', $interesse_id, PDO::PARAM_INT);
+            $pdostm->bindValue('interesseId', $interesse_id, PDO::PARAM_INT);
             $pdostm->execute();
             $result = $pdostm->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE,Interesse::class,['']);
 
@@ -68,14 +68,15 @@ class InteresseModel
     }
 
 
-    public function update($user)
+    public function update($interesse)
     {
-        $sql = "UPDATE Interesse set Nome=:Nome, 
+        $sql = "UPDATE Interesse SET nome=:nome, 
                                 
-                                where InteresseId=:interesse_id;";
+                                WHERE interesseId=:interesse_id;";
+
         $pdostm = $this->conn->prepare($sql);
-        $pdostm->bindValue(':Nome', $user->getNome(), PDO::PARAM_STR);
-        
+        $pdostm->bindValue(':nome', $interesse->getNome(), PDO::PARAM_STR);
+        $pdostm->bindValue(':interesseId', $interesse->getInteresseId(), PDO::PARAM_STR);
         $pdostm->execute();
 
         if($pdostm->rowCount() === 0) {
@@ -85,12 +86,12 @@ class InteresseModel
         }
     }
 
-    public function delete(int $interesse_id):bool
+    public function delete(int $interesseId):bool
     {
-        $sql = "delete from User where InteresseId=:interesse_id ";
+        $sql = "DELETE FROM interesse WHERE interesseId=:interesseId ";
         
         $pdostm = $this->conn->prepare($sql);
-        $pdostm->bindValue(':interesse_id',$interesse_id,PDO::PARAM_INT);
+        $pdostm->bindValue(':interesseId',$interesseId,PDO::PARAM_INT);
         $pdostm->execute();
 
         
@@ -100,7 +101,14 @@ class InteresseModel
             return true;
         }
 
-  
+      }
+
+      public function deleteUserInteresse($interesseId){
+        $sql = "DELETE FROM user_interesse WHERE interesseId=:interesseId;";
+        $pdostm = $this->conn->prepare($sql);
+        $pdostm->bindValue(':interesseId',$interesseId,PDO::PARAM_INT);
+        $pdostm->execute();
+
     }
 
 }
